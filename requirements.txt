@@ -1,0 +1,10 @@
+torch>=2.1
+numpy
+pandas
+scipy
+scikit-learn
+matplotlib
+pyyaml
+sentence-transformers
+fastapi
+uvicorn

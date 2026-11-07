@@ -1,0 +1,46 @@
+seed: 42
+
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  out_dir: outputs
+  images_dir: data/raw/images   # H&M layout: images/010/0108775015.jpg
+
+data:
+  start_date: "2020-06-01"      # H&M spans 2018-09 -> 2020-09; keep recent rows only
+  min_item_count: 20            # drop very rare items
+  min_user_len: 5               # need >=5 purchases (3 train + val + test)
+  max_users: 200000             # subsample for speed; null = all users
+  max_items_per_seq: 50         # context window, in ITEMS (each item = 4 tokens)
+  dedup_consecutive: true       # drop immediate repeats of the same item
+
+semantic_ids:
+  text_model: "sentence-transformers/all-MiniLM-L6-v2"   # or "tfidf" for an offline fallback
+  levels: 3                     # residual quantisation depth
+  codebook_size: 256            # codes per level
+  latent_dim: 32
+  hidden_dim: 256
+  commitment: 0.25
+  epochs: 100
+  batch_size: 1024
+  lr: 0.001
+
+transformer:
+  d_model: 256
+  n_layers: 4
+  n_heads: 4
+  d_ff: 1024
+  dropout: 0.1
+  batch_size: 128
+  lr: 0.0005
+  weight_decay: 0.01
+  epochs: 20
+  warmup_steps: 500
+  patience: 3                   # early stopping on val NDCG@10
+  val_users: 3000               # users used for per-epoch beam-search validation
+
+eval:
+  beam_size: 30                 # must be >= max(ks)
+  ks: [5, 10, 20]
+  eval_batch_size: 16
+  max_eval_users: 20000

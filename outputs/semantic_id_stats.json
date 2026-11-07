@@ -1,0 +1,7 @@
+{
+  "n_items": 16943,
+  "unique_code_tuples": 10440,
+  "collision_rate": 0.38381632532609333,
+  "max_dedup_index": 37,
+  "vocab_size": 808
+}
